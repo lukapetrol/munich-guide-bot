@@ -5,6 +5,8 @@ const Stage = require("telegraf/stage");
 const Scene = require("telegraf/scenes/base");
 const fs = require("fs");
 const path = require("path");
+const express = require('express')
+const bodyParser = require('body-parser');
 
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
@@ -157,6 +159,20 @@ game.on("text", (ctx) => {
 });
 
 bot.launch();
+
+
+const app = express();
+ 
+app.use(bodyParser.json());
+ 
+app.listen(process.env.PORT);
+ 
+app.post('/' + bot.token, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
+
+
 
 function gameFound(player) {
   const savesRawData = fs.readFileSync("saves.json");
