@@ -1,43 +1,43 @@
 // require("custom-env").env("staging");
 require('dotenv').config();
-// const Telegraf = require("telegraf"); // import telegram lib
-const TelegramBot = require('node-telegram-bot-api');
+const Telegraf = require("telegraf"); // import telegram lib
+// const TelegramBot = require('node-telegram-bot-api');
 const session = require("telegraf/session");
 const Stage = require("telegraf/stage");
 const Scene = require("telegraf/scenes/base");
 const fs = require("fs");
 const path = require("path");
-const express = require('express')
-const bodyParser = require('body-parser');
+// const express = require('express')
+// const bodyParser = require('body-parser');
 
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
 
-// const bot = new Telegraf(process.env.BOT_TOKEN); // get the token from envirenment variable
+const bot = new Telegraf(process.env.BOT_TOKEN); // get the token from envirenment variable
 
-const token = process.env.TELEGRAM_TOKEN;
-let bot;
+// const token = process.env.TELEGRAM_TOKEN;
+// let bot;
  
-if (process.env.NODE_ENV === 'production') {
-   bot = new TelegramBot(token);
-   bot.setWebHook(process.env.HEROKU_URL + bot.token);
-} else {
-   bot = new TelegramBot(token, { polling: true });
-}
+// if (process.env.NODE_ENV === 'production') {
+//    bot = new TelegramBot(token);
+//    bot.setWebHook(process.env.HEROKU_URL + bot.token);
+// } else {
+//    bot = new TelegramBot(token, { polling: true });
+// }
 
-const app = express();
+// const app = express();
  
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
  
-app.listen(process.env.PORT);
+// app.listen(process.env.PORT);
  
-app.post('/' + bot.token, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
+// app.post('/' + bot.token, (req, res) => {
+//   bot.processUpdate(req.body);
+//   res.sendStatus(200);
+// });
 
 
-bot.onText("test", (msg, match) => bot.sendMessage("Test"));
+// bot.onText("test", (msg, match) => bot.sendMessage("Test"));
 
  
 
