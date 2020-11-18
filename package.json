@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "lodash": "^4.17.20",
     "micro-bot": "^2.5.3",
+    "node-telegram-bot-api": "^0.50.0",
     "telegraf": "^3.38.0"
   }
 }

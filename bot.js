@@ -1,5 +1,7 @@
 // require("custom-env").env("staging");
-const Telegraf = require("telegraf"); // import telegram lib
+require('dotenv').config();
+// const Telegraf = require("telegraf"); // import telegram lib
+const TelegramBot = require('node-telegram-bot-api');
 const session = require("telegraf/session");
 const Stage = require("telegraf/stage");
 const Scene = require("telegraf/scenes/base");
@@ -11,7 +13,19 @@ const bodyParser = require('body-parser');
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
 
-const bot = new Telegraf(process.env.BOT_TOKEN); // get the token from envirenment variable
+// const bot = new Telegraf(process.env.BOT_TOKEN); // get the token from envirenment variable
+
+const token = process.env.TELEGRAM_TOKEN;
+let bot;
+ 
+if (process.env.NODE_ENV === 'production') {
+   bot = new TelegramBot(token);
+   bot.setWebHook(process.env.HEROKU_URL + bot.token);
+} else {
+   bot = new TelegramBot(token, { polling: true });
+}
+ 
+
 const stage = new Stage();
 bot.use(session());
 bot.use(stage.middleware());
