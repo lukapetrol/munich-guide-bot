@@ -1,0 +1,86 @@
+[
+    {
+        "clue": "Standing on platform 26 next to YORMAS bakery, take the stairs towards theunderground (S-Bahn). Passing by REWE (open 24h), go right to find EDEKA (open7 am–11 pm). These are two of the few grocery stores which also open on Sundayand public holidays. Continue to backWERK and take the exit to the left. FollowPrielmeyerstraße, starting between Elisenhof and Karstadt. The Karstadt building was opened in 1905 and, featuring almost 40,000 squaremeters (430,000 square feet), is one of the biggest warehouses in Germany. Especially lovely is the glass dome over its light yard. Keep on following the road towards Justizpalast. If possible, it is highly recommendable to visit its interior. Visitors are welcome on working days but expect access controls.",
+        "task": "Investigate and enter the street number of the Justizpalast."
+    },
+    {
+        "clue": "Follow Prielmeyerstraße further and pass the Justizpalast. In front of you now liesone of the most famous squares in the Bavarian capital, Karlsplatz (Stachus). It is a popular meeting point for Munich residents and tourists. Cross Karlsplatz at the pedestrian light and walk over to the Karlstor, the gate on the eastern side of thesquare. Don't miss the four little stone sculptures in the corners at the bottomends of the arches' piles of the main gate. They represent four Munich Originals, famous citizens of the city.",
+        "task": "Find a note plate in the Karlstor's gateway and investigate the year in which the Munich city council agreed to assign this street a pedestrian street. Sum up the last two digits of the year and enter the result."
+    },
+    {
+        "clue": "Pass through Karlstor and follow the pedestrian street Neuhauser Straße for a bit. The street's first documentary evidence originated from 1293, and it is 300 meters(1000 ft) long. On your left is the Gasteigerbrunnen, a smaller fountain featuring the sculpture of a boy called Brunnenbuberl (Engl.: Fountain Boy). The fountain contains drinking water and is not covered during winter. Right next to it is the noblewarehouse Oberpollinger, a building in neo-renaissance style. On the ground floor, luxury brands like Gucci, Burberry, Prada, and Louis Vuitton have stores. Oberpollinger, together with Alsterhaus in Hamburg and KaDeWe in Berlin, is part ofthe KaDeWe Group GmbH.",
+        "task": "Find out in which year Mathias Gasteiger has designed the Brunnenbuberl. An inscription at the fountain will help you. Enter the last digit of the year."
+    },
+    {
+        "clue": "Keep on following Neuhauser Straße to the citizen's Hall (German: Bürgersaal), which is adjacent to the noble warehouse Oberpollinger. The citizen hall, which is also referred to as citizen hall church (Bürgersaalkirche), is open regularly and worth visiting. The lower church hosts the small Mueseum of the Marian Men Congreagation, which is open daily. If features an exhibitin focusing on the life of Peter Rupert Mayer (1876-1945), who belonged to the Catholic resistance during the Nazi time.",
+        "task": "Find out which word is written over the lower-left glass window of the citizen's hall. Which place has the word's last letter in the alphabet? Enter it in the chat."
+    },
+    {
+        "clue": "Follow Neuhauser Straße a little further towards Marienplatz. Among other sights, you pass by Richard-Strauss Fountain in front of the Old Academy, also called Wilhelminum. This building from the 16th century had initially been the home of the Jesuit college, which also initiated the construction of the church St. Michael adjacent to it. Go in if possible. The church is open regularly.",
+        "task": "The facade of St. Michael is ornamented with little niches hosting various figurines. In the gable thrones Jesus and directly below him, on ground floor level, Archangel Michael, whom the church was named after. But how many white figurines are in the niches ​at the facade altogether? Do ​not​count the figurine of Jesus. Now enter the respective number."
+    },
+    {
+        "clue": "Keep on following Neuhauser Straße, which now soon becomes Kaufinger Straße, until you reach the German Hunting and Fishing Museum on your left. You will quickly identify it from the bronze statues of a wild boar and a catfish, which are set up in front of the entrance. The museum and some shops are located within the Augustinian church, a former monastery. Since around 1328, beer has been brewed here. This is where the famous Augustiner beer originates.",
+        "task": "Approach the catfish statue and find out which year Claus Nageler created it. The solution is posted somewhere at the statue itself. Multiply the last two digits of the year with each other and enter the result."
+    },
+    {
+        "clue": "Right next to the museum, Hirmer warehouse is located, which claims to be the largest men's warehouse of the world. Its head office is in the building 'Zum schönenTurm' (Engl.: at the beautiful tower), erected between 1912 and 1914. The name originates from the tower gate of the medieval fortification, which was torn down in 1807. Markings on the ground indicate its former position. The corner of the housestill features a sculpture of the tower. Follow Augustiner Straße, starting between themuseum and Hirmer warehouse, until you reach Frauenplatz and the Frauenkirche(Engl.: Women's Church). If the church is open to the public, don't miss visiting it. The southern tower allows a magnificent view of the city. Please ask on-site if ascendingto the tower is possible.",
+        "task": "Find the sundial over one of the Frauenkirche's gates. How many small windows canyou see at the dial? Enter the result for the next clue."
+    },
+    {
+        "clue": "The sundial on Frauenkirche in your back, walk towards the 'Augustiner am Dom' on the opposite side. From there, continue left and turn immediately right into the first street. Now follow Thiereckstraße, which leads you back to the pedestrian street Kaufinger Straße. When you arrive there, turn left and follow it until you arrive at Marienplatz. Find the column Mariensäule in the center of the square.",
+        "task": "Mariensäule displays numerous inscriptions. One of them will tell you the date of Pope Johannes Paul II's visit here. Add up all digits of the date and divide the resultby 3. Now open the envelope with the number you got."
+    },
+    {
+        "clue": "Marienplatz is characterized by the monumental new townhall (German: Neues Rathaus) to a great extent. Another fantastic view over the city's roofs awaits you from here. If you like, find the elevator up to the tower in the passage to the courtyard right underneath the tower. You also have the option to book a guidedtour through the town hall. Please see the schedule and prices therefore on-site.",
+        "task": "Somewhere in the passage, you can find a huge stone display, naming Munich's partner cities and their respective city arms. Find a US city there and count the letters of its name. Now subtract seven and open the envelope with the calculated number."
+    },
+    {
+        "clue": "Cross Marienplatz now, leaving the town hall in your back. On your left, you see the fishfountain, where the major traditionally washes the city's purse on Ash Wednesday, toassure that it can be appropriately filled again throughout the coming year. Also, an old craftsmen's custom, the so-called Metzgersprung (Engl.: Jump of the Butcher), took placehere. Butcher's apprentice boys were confirmed of having their training completed by jumping into the water and throwing apples, nuts, and coins into the crowd. This rite hasgenerally been replaced by handing the apprentice his or her certificate in modern times, but since 1995, it is replayed every three years. The church St. Peter lies ahead of you. Follow the street Rindermarkt until you reach the church. In case you have some sparetime, you should consider going up to the church tower — the view is terrific.",
+        "task": "Find St. Peter's inauguration plate at the church's outer facade. How often has the letter 'S' been used on this plate? Multiply the number by three and enter it in the chat."
+    },
+    {
+        "clue": "Now return to Marienplatz and turn right. The Old Townhall, which hosts the Toy Museum since 1983, is directly in front of you. The museum is located in the old townhall's tower. Approach the left passage, which is reserved for pedestrians. Here is the entrance to the historic festival hall, which can be rented for privateand public events.",
+        "task": "The left wall of the passage shows various commemorative plaques. Among others, there is a huge stone plate, which is made from several smaller plaquesand depicts three women. How many words does the inscription contain in total? It starts with Wir warten auf die...'. Enter the numer for the next clue."
+    },
+    {
+        "clue": "Pass through the Old Townhall's passageway and turn right. The townhall's tower features the Julia Statue, a Munich symbol of love. Traditionally, lovers lay flowers inthe arms of the 2.65 meters (8'2\") tall statue as a sign of their love. The figure is apresent from Verona, an Italian partner city of Munich, which also has a sculpture likethis. According to the Italian tradition, a touch to Julia's breast brings luck and eternal love. By now, this has also become a rite to Munich's Julia. Now, follow the streetpast the Heilig-Geist-Kirche towards Viktualienmarkt.",
+        "task": "On Viktualienmarkt, find the fountain in the centre, Liesl-Karlstadt Brunnen. LieslKarlstadt (1892-1960) formed one of the most famous German comedian duos together with Karl Valentin. In which year did Hans Osel create the fountain? Use thelast digit of the year and open the according envelope."
+    },
+    {
+        "clue": "After having tasted a variety of delicacies from Viktualienmarkt, turn back towards the Old Townhall. Heilig-Geist-Kirche (Engl.: Church of the Holy Spirit; lit. Holy GhostChurch) is directly in front of you. Find the two stone arches at its Viktualienmarkt-facing side. The passageways are lockable by metal mountings. Find the plaque, which shows an inscription beginning with the words' Hier war das Spitalzum heiligen Geist' (Engl: 'Here stood the Holy Ghost Hospice').",
+        "task": "Using the plaque, research the year in which the hospice was relocated to themonastery St. Elizabeth's (German: Kloster der Elisabetherinnen). Sum up the single digits of the year and subtract 6. Enter the number."
+    },
+    {
+        "clue": "Now approach the main entrance of Heilig-Geist-Kirche diagonally opposite of the Old Townhall. The church is open regularly, and a visit is recommendable. Then continue between the Old Townhall and the city savings bank (German: Münchner Stadtsparkasse) below the roofed connection walkway. Follow Sparkassenstraße until Münzstraße. There, turn right until you reach a crossing, and you will see the Hofbraeuhaus left-hand sided in front of you. It is open daily. Now go left to Platzl.",
+        "task": "At Platzl, find the rehearsal building of the Bavarian State Ballet. It is close to the Orlando House. Find out in which year the Bavarian State Ballet moved into thehouse with the number 7. Now subtract the last digit of the year from the third digit and multiply the result by 2. Now enter the respectie number."
+    },
+    {
+        "clue": "After you finished your putative break at Hofbraeuhaus, return towards Orlandohouse. It is easily recognizable by the golden writing below its gable andstar chef Alfons Schuhbeck's famous restaurant. Facing the Orlandohouse, turn left. Follow the Platzlgassen (the entrance is left of the Starbucks) through thecourts to the Pfisterstraße. In case the Platzlgassen is closed, you can already enter Pfisterstraße at Platzl. Walk along the street until the entrance to Alter Hofappears on your left. Turn right into the Hofgraben. At the end of the street, turn left and you'll find yourself in a big square called Max-Joseph-Platz.",
+        "task": "Taking a closer look at the statue you’ll find a sign with roman numerals at the bottom. They describe the year that this statue was erected. Which year is it? The first two digits are the number of the next envelope."
+    },
+    {
+        "clue": "Behind the statue you can see red letters showing Residenz Theater. This is one of Munich’s best theaters and they offer student tickets at a discount. It’s only 8€ somake sure to pay it a visit! With the statue and theater behind you go right onto Residenzstraße. At the next opportunity turn left and you’ll find yourself in the Viscardigasse.Taking a closer look at the cobblestone on the floor you’ll notice a golden path. This small alley was used a lot during the Third Reich. Further down the street there was a guard, that had to be greeted with the nazi salute. The people that wanted to avoid it used the Viscardigasse. The golden path pays tribute to all the people that took partin this silent protest against the nazi regime. At the end of the alley turn right and you’ll enter another big square called Odeonsplatz. Take the stairs between the two lions in the big monument to your right.",
+        "task": "There is a big statue at the top. Sum up the digits on its plate to know, which nuber to enter next (Hint: Watch closely!)."
+    },
+    {
+        "clue": "Don't go down the stairs instantly. Instead, enjoy the view of the avenue in front of you called Leopoldstraße. In the far distance the Siegestor, the arch of victory can be seen. But this major avenue also features a lot of other important buildings like the Ludwig-Maximilians-University and the Bavarian State Library. To the right, there is another arch with 4 statues on top. Go through it to continue your journey through Munich.",
+        "task": "After stepping through the arch you'll find yourself in the Hofgarten, a garden in the style of the Italian Renaissance. Go to the pavillion in the middle, which is known as the Diana Temple. Once you're there, count the entrances. Add 9 to that number and you'll know wich number to enter next."
+    },
+    {
+        "clue": "Locate the star on the floor of the monument and stand on it. Look around until you find a yellow church in the distance (roughly in the direction you just came from). This entrance marks the 12 on a clock. Leave the pavilion through the entrance that would equal a 7 on a clock. Go ahead until the end of the path. The big building that appears in front of you is the Bavarian State Chancellery, the office of the Bavarian Prime Minister.",
+        "task": "Turn left and find the plate with information about the Chancellery. In which century did Otto I. become the first Duke of Bavaria? Divide the solution by 3. This is your next number."
+    },
+    {
+        "clue": "Continue on the path until you reach a human-sized cube made of stone on your right. Turn right on the next possibility and then left. The path should lead you to a tunnel passing under the street. After the tunnel, go right twice and you should be staying on Von-der-Tann-Street. A few meters to your left you’ll find a sign belonging to one of Munich’s most exclusive and expensive clubs, P1.",
+        "task": "Selfie Time! Try taking a selfie in front of the sign. But don’t press the shutter button yet! Instead, take a closer look at the sign (on your smartphone’s viewfinder). It willreveal to you, which number to enter next."
+    },
+    {
+        "clue": "Continue walking down the street. The big building to your left is the famous arts museum Haus der Kunst. Like almost all museums in Munich Haus der Kunst also offers huge discounts for students. The entry fee is an affordable 5€, so make sure to pay it a visit if you are interested in arts. After a few hundred meters you will reach a small bridge. You should be able to hear the water below it. Look down.",
+        "task": "What sport do you see? Take the second letter of the word. At which place does itappear in the alphabet? This is the last number. Enter it, you’realmost done!"
+    },
+    {
+        "clue": "A few meters ahead there is a bus stop called „Nationalmuseum/Haus der Kunst“. Line 100 will bring you back to Munich Main Station. But since you’re already here we’d encourage you to take a walk through the English Garden. Just go left towards the surfers and start exploring from there. But don’t get lost! The English Garden is even bigger than New York’s Central Park!",
+        "task": "I hope this Scavenger Hunt gave you an overview of Munich, but there’s much more to see! Get around and explore the city. You’re already here, so make sure to make this an unforgettable year abroad!"
+    }
+]

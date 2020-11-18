@@ -1,0 +1,24 @@
+{
+  "name": "testbot",
+  "version": "1.0.0",
+  "description": "Telegram Test-Bot",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luka Petrovic",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "aws": "0.0.3-2",
+    "axios": "^0.21.0",
+    "custom-env": "^2.0.1",
+    "dotenv": "^8.2.0",
+    "envs": "^0.1.6",
+    "lodash": "^4.17.20",
+    "micro-bot": "^2.5.3",
+    "telegraf": "^3.38.0"
+  }
+}
