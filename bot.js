@@ -15,6 +15,9 @@ const envelopesJSON = JSON.parse(envelopesRawData);
 
 const bot = new Telegraf(process.env.BOT_TOKEN); // get the token from envirenment variable
 
+bot.telegram.setWebhook(process.env.HEROKU_URL);
+bot.startWebhook('/', null, process.env.PORT);
+
 // const token = process.env.TELEGRAM_TOKEN;
 // let bot;
  
@@ -189,8 +192,6 @@ game.on("text", (ctx) => {
 
 // bot.launch();
 
-bot.telegram.setWebhook(process.env.HEROKU_URL);
-bot.startWebhook('/', null, process.env.PORT)
 
 
 
