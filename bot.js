@@ -187,8 +187,10 @@ game.on("text", (ctx) => {
   }
 });
 
-bot.launch();
+// bot.launch();
 
+bot.telegram.setWebhook(process.env.HEROKU_URL + bot.token);
+bot.startWebhook('/', null, process.env.PORT)
 
 
 
