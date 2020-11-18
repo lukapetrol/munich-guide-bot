@@ -14,9 +14,11 @@
   "dependencies": {
     "aws": "0.0.3-2",
     "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
     "custom-env": "^2.0.1",
     "dotenv": "^8.2.0",
     "envs": "^0.1.6",
+    "express": "^4.17.1",
     "lodash": "^4.17.20",
     "micro-bot": "^2.5.3",
     "telegraf": "^3.38.0"
