@@ -7,16 +7,29 @@ const Stage = require("telegraf/stage");
 const Scene = require("telegraf/scenes/base");
 const fs = require("fs");
 const path = require("path");
+const axios = require("axios");
+const express = require("express")
 // const express = require('express')
 // const bodyParser = require('body-parser');
 
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
 
-const bot = new Telegraf(process.env.BOT_TOKEN); // get the token from envirenment variable
+const app = express();
+const bot = new Telegraf(process.env.TELEGRAM_TOKEN); // get the token from envirenment variable
 
-bot.telegram.setWebhook(process.env.HEROKU_URL);
-bot.startWebhook('/', null, process.env.PORT);
+//this unite Express with webHook from Telegraf
+app.use(bot.webhookCallback("/bot.js"));
+
+//and this will set our webhook for our bot
+
+
+//before app.get
+// app.get("/", (req, res) => {
+//   res.send("Our new tab!!");
+// });
+
+
 
 // const token = process.env.TELEGRAM_TOKEN;
 // let bot;
@@ -189,6 +202,10 @@ game.on("text", (ctx) => {
     ctx.scene.leave();
   }
 });
+
+bot.telegram.setWebhook(`https://api.telegram.org/bot${proces.env.TELEGRAM_TOKEN}/setwebhook?url=${proces.env.HEROKU_URL}/bot.js`);
+bot.telegram.setWebhook(process.env.HEROKU_URL);
+bot.startWebhook('/', null, process.env.PORT);
 
 // bot.launch();
 
