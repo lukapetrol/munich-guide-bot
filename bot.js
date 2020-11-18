@@ -24,6 +24,21 @@ if (process.env.NODE_ENV === 'production') {
 } else {
    bot = new TelegramBot(token, { polling: true });
 }
+
+const app = express();
+ 
+app.use(bodyParser.json());
+ 
+app.listen(process.env.PORT);
+ 
+app.post('/' + bot.token, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
+
+
+bot.onText("test", (msg, match) => bot.sendMessage("Test"));
+
  
 
 const stage = new Stage();
@@ -175,16 +190,6 @@ game.on("text", (ctx) => {
 bot.launch();
 
 
-const app = express();
- 
-app.use(bodyParser.json());
- 
-app.listen(process.env.PORT);
- 
-app.post('/' + bot.token, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
 
 
 
