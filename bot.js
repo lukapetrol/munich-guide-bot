@@ -214,7 +214,6 @@ game.on("text", (ctx) => {
 
 
 
-
 function gameFound(player) {
   const savesRawData = fs.readFileSync("saves.json");
   var savesJSON = JSON.parse(savesRawData);
