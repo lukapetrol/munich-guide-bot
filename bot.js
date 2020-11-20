@@ -18,8 +18,8 @@ let ladder = new Ladder();
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN); // get the token from envirenment variable
 
-bot.telegram.setWebhook(`${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`);
-bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
+// bot.telegram.setWebhook(`${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`);
+// bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
 
  
 
@@ -171,4 +171,6 @@ game.on("text", (ctx) => {
 });
 
 
-// bot.launch();
+bug
+
+bot.launch();
