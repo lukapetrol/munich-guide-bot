@@ -4,13 +4,15 @@ class Saves {
   }
 
   saveGame(player, level) {
-    if (!this.gameFound(player)) {
-      this.games[player] = level;
-    }
+    this.games[player] = level;
   }
 
   loadGame(player) {
-    return this.games[player];
+    if(this.gameFound(player)) {
+        return { "player": player, "level": this.games[player] };
+    } else  {
+        return { "player": player, "level": 0 };
+    }
   }
 
   deleteGame(player) {

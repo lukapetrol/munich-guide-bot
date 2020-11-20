@@ -1,10 +1,9 @@
-require('dotenv').config();
+require("dotenv").config();
 const Telegraf = require("telegraf");
 const session = require("telegraf/session");
 const Stage = require("telegraf/stage");
 const Scene = require("telegraf/scenes/base");
 const fs = require("fs");
-const path = require("path");
 
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
@@ -15,13 +14,12 @@ let saves = new Saves();
 let Ladder = require("./ladder.js");
 let ladder = new Ladder();
 
+const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
-const bot = new Telegraf(process.env.TELEGRAM_TOKEN); // get the token from envirenment variable
-
-// bot.telegram.setWebhook(`${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`);
-// bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
-
- 
+bot.telegram.setWebhook(
+  `${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`
+);
+bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
 
 const stage = new Stage();
 bot.use(session());
@@ -51,7 +49,6 @@ const envelopeOrder = [
   21,
 ];
 
-
 const game = new Scene("game");
 stage.register(game);
 
@@ -70,7 +67,8 @@ bot.command("help", (ctx) => {
 /resumegame - Resume an your scavenger hunt.
 /endgame - End your current scavenger hunt.
 /ladder - Show the first ten players to finish the scavenger hunt.
-/clue - Shows the last clue.`);
+/clue - Shows the last clue.
+/showprogress - Shows how far you have gotten on your scavenger hunt.`);
 });
 
 bot.command("ladder", (ctx) => {
@@ -115,7 +113,13 @@ bot.command("clue", (ctx) => {
   ctx.reply("Please enter a game by using /newgame or /resumegame.");
 });
 
+bot.command("showprogress", (ctx) => {
+  let progressLevel = saves.loadGame(ctx.from.username).level;
+  ctx.reply(`You have completed ${progressLevel} out of 20 stations.`);
+});
+
 game.enter((ctx) => {
+  console.log(ctx.session.save);
   ctx.reply(
     `${envelopesJSON[ctx.session.save.level].clue}\n\n${
       envelopesJSON[ctx.session.save.level].task
@@ -150,13 +154,17 @@ game.on("text", (ctx) => {
 /resumegame - Resume an your scavenger hunt.
 /endgame - End your current scavenger hunt.
 /ladder - Show the first ten players to finish the scavenger hunt.
-/clue - Shows the last clue.`);
+/clue - Shows the last clue.
+/showprogress - Shows how far you have gotten on your scavenger hunt.`);
   } else if (ctx.message.text === "/clue") {
     ctx.reply(
       `Here is your last clue:\n\n${
         envelopesJSON[ctx.session.save.level].clue
       }\n\n${envelopesJSON[ctx.session.save.level].task}`
     );
+  } else if (ctx.message.text === "/showprogress") {
+    let progressLevel = ctx.session.save.level;
+    ctx.reply(`You have completed ${progressLevel} out of 20 stations.`);
   } else {
     ctx.reply("Your number is incorrect. Try again.");
   }
@@ -170,7 +178,4 @@ game.on("text", (ctx) => {
   }
 });
 
-
-bug
-
-bot.launch();
+// bot.launch();
