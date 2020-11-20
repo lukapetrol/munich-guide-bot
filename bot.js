@@ -88,6 +88,7 @@ const envelopeOrder = [
   21,
 ];
 
+
 const game = new Scene("game");
 stage.register(game);
 
