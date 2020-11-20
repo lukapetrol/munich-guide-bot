@@ -15,11 +15,14 @@ const express = require("express")
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
 
-const app = express();
+// const app = express();
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN); // get the token from envirenment variable
 
 //this unite Express with webHook from Telegraf
-app.use(bot.webhookCallback("/bot.js"));
+// app.use(bot.webhookCallback("/bot.js"));
+
+bot.telegram.setWebhook(`${proces.env.HEROKU_URL}/bot${proces.env.TELEGRAM_TOKEN}`);
+bot.startWebhook(`/bot${proces.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
 
 //and this will set our webhook for our bot
 
@@ -203,9 +206,7 @@ game.on("text", (ctx) => {
   }
 });
 
-bot.telegram.setWebhook(`https://api.telegram.org/bot${proces.env.TELEGRAM_TOKEN}/setwebhook?url=${proces.env.HEROKU_URL}/bot.js`);
-bot.telegram.setWebhook(process.env.HEROKU_URL);
-bot.startWebhook('/', null, process.env.PORT);
+
 
 // bot.launch();
 
