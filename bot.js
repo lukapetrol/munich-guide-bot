@@ -229,7 +229,7 @@ function gameFound(player) {
 }
 
 function writePlayerToLadder(player) {
-  var ladderRawData = fs.readFileSync("ladder.json");
+  var ladderRawData = process.env.LADDER;
   var ladderJSON = JSON.parse(ladderRawData);
   for (l of ladderJSON) {
     if (l.player === player) break;
@@ -239,15 +239,11 @@ function writePlayerToLadder(player) {
     }
   }
   var ladder = JSON.stringify(ladderJSON);
-  fs.writeFile(path.join(__dirname, "ladder.json"), ladder, (err) => {
-    if (err) throw err;
-    console.log(ladder);
-    console.log("Ladder updated...");
-  });
+  process.env.LADDER = ladder;
 }
 
 function parseLadder() {
-  const ladderRawData = fs.readFileSync("ladder.json");
+  var ladderRawData = process.env.LADDER;
   const ladderJSON = JSON.parse(ladderRawData);
   ladderString = "";
   ladderJSON.forEach((l) => {
