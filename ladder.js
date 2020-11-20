@@ -15,7 +15,7 @@ class Ladder {
   }
 
   parseLadder() {
-    ladderString = "";
+    let ladderString = "";
     this.ranks.forEach((r) => {
       ladderString += `Place ${r.place}: ${r.player}\n`;
     });

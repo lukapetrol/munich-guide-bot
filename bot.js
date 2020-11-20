@@ -18,8 +18,8 @@ let ladder = new Ladder();
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN); // get the token from envirenment variable
 
-// bot.telegram.setWebhook(`${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`);
-// bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
+bot.telegram.setWebhook(`${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`);
+bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
 
  
 
@@ -92,7 +92,7 @@ bot.command("newgame", (ctx) => {
 
 bot.command("resumegame", (ctx) => {
   if (typeof ctx.from.username !== undefined) {
-    if (gameFound(ctx.from.username)) {
+    if (saves.gameFound(ctx.from.username)) {
       ctx.session.save = saves.loadGame(ctx.from.username);
       ctx.reply(
         `Game found. Your scavanger hunt will be resumed. Here is your last clue:`
@@ -171,6 +171,4 @@ game.on("text", (ctx) => {
 });
 
 
-bug
-
-bot.launch();
+// bot.launch();
