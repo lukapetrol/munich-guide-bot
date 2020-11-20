@@ -21,8 +21,8 @@ const bot = new Telegraf(process.env.TELEGRAM_TOKEN); // get the token from envi
 //this unite Express with webHook from Telegraf
 // app.use(bot.webhookCallback("/bot.js"));
 
-bot.telegram.setWebhook(`${proces.env.HEROKU_URL}/bot${proces.env.TELEGRAM_TOKEN}`);
-bot.startWebhook(`/bot${proces.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
+bot.telegram.setWebhook(`${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`);
+bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
 
 //and this will set our webhook for our bot
 
