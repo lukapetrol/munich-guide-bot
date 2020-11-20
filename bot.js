@@ -16,10 +16,10 @@ let ladder = new Ladder();
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
-bot.telegram.setWebhook(
-  `${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`
-);
-bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
+// bot.telegram.setWebhook(
+//   `${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`
+// );
+// bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
 
 const stage = new Stage();
 bot.use(session());
@@ -52,6 +52,9 @@ const envelopeOrder = [
 const game = new Scene("game");
 stage.register(game);
 
+const existingGame = new Scene("existingGame");
+stage.register(existingGame);
+
 const startMessage = `
 Greetings traveller! You just arrived in Munich a few days or weeks ago I assume. The city can seem big and scary at first. But do not worry! With some navigational skills as well as some simple math I will guide you through the historical core of the city on this years inner city scavenger hunt.
 To start the scavenger hunt enter /newgame .
@@ -77,10 +80,15 @@ bot.command("ladder", (ctx) => {
 
 bot.command("newgame", (ctx) => {
   if (typeof ctx.from.username !== "undefined") {
-    ctx.session.save = { player: ctx.from.username, level: 0 };
-    saves.saveGame(ctx.session.save.player, ctx.session.save.level);
-    ctx.reply("Starting new game. Get ready for your first clue.");
-    ctx.scene.enter("game");
+    if(!saves.gameFound(ctx.from.username)) {
+      ctx.session.save = { player: ctx.from.username, level: 0 };
+      saves.saveGame(ctx.session.save.player, ctx.session.save.level);
+      ctx.reply("Starting new game. Get ready for your first clue.");
+      ctx.scene.enter("game");
+    } else {
+      ctx.reply("It seems like you haven't finished an existing scavenger hunt.\nEnter \"resume\" to resume your existing scavenger hunt.\nEnter \"new\" to start a new scavenger hunt. Your old progress will be lost.");
+      ctx.scene.enter("existingGame");
+    }
   } else {
     ctx.reply(
       'It appears that you haven\'t registert a Telegram-Username. Please enter your Username under "Telegram > Settings" before participating in the scavanger hunt.'
@@ -117,6 +125,24 @@ bot.command("showprogress", (ctx) => {
   let progressLevel = saves.loadGame(ctx.from.username).level;
   ctx.reply(`You have completed ${progressLevel} out of 20 stations.`);
 });
+
+
+
+existingGame.on("text", (ctx) => {
+  if(ctx.message.text === "resume") {
+    ctx.session.save = saves.loadGame(ctx.from.username);
+    ctx.reply("Your old scavanger hunt will be resumed.\nHere is your last clue:");
+    ctx.scene.leave();
+    ctx.scene.enter("game");
+  } else if(ctx.message.text === "new") {
+    ctx.session.save = { "player": ctx.from.username, "level": 0 };
+    ctx.reply("You have started a new scavenger hunt.\nYour old progress will be lost.\nHere is your first clue:");
+    ctx.scene.leave();
+    ctx.scene.enter("game");
+  }
+});
+
+
 
 game.enter((ctx) => {
   console.log(ctx.session.save);
@@ -177,5 +203,7 @@ game.on("text", (ctx) => {
     ctx.scene.leave();
   }
 });
+
+bug
 
 // bot.launch();
