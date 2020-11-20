@@ -1,60 +1,25 @@
-// require("custom-env").env("staging");
 require('dotenv').config();
-const Telegraf = require("telegraf"); // import telegram lib
-// const TelegramBot = require('node-telegram-bot-api');
+const Telegraf = require("telegraf");
 const session = require("telegraf/session");
 const Stage = require("telegraf/stage");
 const Scene = require("telegraf/scenes/base");
 const fs = require("fs");
 const path = require("path");
-const axios = require("axios");
-const express = require("express")
-// const express = require('express')
-// const bodyParser = require('body-parser');
 
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
 
-// const app = express();
+let Saves = require("./saves.js");
+let saves = new Saves();
+
+let Ladder = require("./ladder.js");
+let ladder = new Ladder();
+
+
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN); // get the token from envirenment variable
 
-//this unite Express with webHook from Telegraf
-// app.use(bot.webhookCallback("/bot.js"));
-
-bot.telegram.setWebhook(`${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`);
-bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
-
-
-//before app.get
-// app.get("/", (req, res) => {
-//   res.send("Our new tab!!");
-// });
-
-
-
-// const token = process.env.TELEGRAM_TOKEN;
-// let bot;
- 
-// if (process.env.NODE_ENV === 'production') {
-//    bot = new TelegramBot(token);
-//    bot.setWebHook(process.env.HEROKU_URL + bot.token);
-// } else {
-//    bot = new TelegramBot(token, { polling: true });
-// }
-
-// const app = express();
- 
-// app.use(bodyParser.json());
- 
-// app.listen(process.env.PORT);
- 
-// app.post('/' + bot.token, (req, res) => {
-//   bot.processUpdate(req.body);
-//   res.sendStatus(200);
-// });
-
-
-// bot.onText("test", (msg, match) => bot.sendMessage("Test"));
+// bot.telegram.setWebhook(`${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`);
+// bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
 
  
 
@@ -109,13 +74,13 @@ bot.command("help", (ctx) => {
 });
 
 bot.command("ladder", (ctx) => {
-  ctx.reply(`Here is the current ladder:\n${parseLadder()}`);
+  ctx.reply(`Here is the current ladder:\n${ladder.parseLadder()}`);
 });
 
 bot.command("newgame", (ctx) => {
   if (typeof ctx.from.username !== "undefined") {
     ctx.session.save = { player: ctx.from.username, level: 0 };
-    saveGame(ctx.session.save);
+    saves.saveGame(ctx.session.save.player, ctx.session.save.level);
     ctx.reply("Starting new game. Get ready for your first clue.");
     ctx.scene.enter("game");
   } else {
@@ -128,7 +93,7 @@ bot.command("newgame", (ctx) => {
 bot.command("resumegame", (ctx) => {
   if (typeof ctx.from.username !== undefined) {
     if (gameFound(ctx.from.username)) {
-      ctx.session.save = loadGame(ctx.from.username);
+      ctx.session.save = saves.loadGame(ctx.from.username);
       ctx.reply(
         `Game found. Your scavanger hunt will be resumed. Here is your last clue:`
       );
@@ -162,7 +127,7 @@ game.on("text", (ctx) => {
   if (ctx.message.text === String(envelopeOrder[ctx.session.save.level])) {
     ctx.session.save.level++;
     console.log(ctx.session.save);
-    saveGame(ctx.session.save);
+    saves.saveGame(ctx.session.save.player, ctx.session.save.level);
     ctx.reply(
       `Congrats! Your answer is right. Here is the next clue:\n\n${
         envelopesJSON[ctx.session.save.level].clue
@@ -172,12 +137,12 @@ game.on("text", (ctx) => {
     ctx.reply(
       "Leaving the current scavanger hunt. Your progress will be saved"
     );
-    saveGame(ctx.session.save);
+    saves.saveGame(ctx.session.save.player, ctx.session.save.level);
     ctx.scene.leave();
   } else if (ctx.message.text === "/newgame") {
     ctx.reply("Your scavanger hunt is already in progress.");
   } else if (ctx.message.text === "/ladder") {
-    ctx.reply(`Here is the current ladder:\n${parseLadder(ladderJSON)}`);
+    ctx.reply(`Here is the current ladder:\n${ladder.parseLadder()}`);
   } else if (ctx.message.text === "/help") {
     ctx.reply(`Here is a list of all available commands:
 /help - List all commands
@@ -199,96 +164,13 @@ game.on("text", (ctx) => {
     ctx.reply(
       "Congratulations! You have sucessfully finished the scavenger hunt."
     );
-    writePlayerToLadder(ctx.session.save.player);
-    deleteGame(ctx.session.save.player);
+    ladder.addPlayer(ctx.session.save.player);
+    saves.deleteGame(ctx.session.save.player);
     ctx.scene.leave();
   }
 });
 
 
+bug
 
-// bot.launch();
-
-
-
-
-function gameFound(player) {
-  const savesRawData = fs.readFileSync("saves.json");
-  var savesJSON = JSON.parse(savesRawData);
-  var found = false;
-  for (s of savesJSON) {
-    if (s.player === player) {
-      found = true;
-      break;
-    }
-  }
-  return found;
-}
-
-function writePlayerToLadder(player) {
-  var ladderRawData = process.env.LADDER;
-  var ladderJSON = JSON.parse(ladderRawData);
-  for (l of ladderJSON) {
-    if (l.player === player) break;
-    if (l.player === "") {
-      l.player = player;
-      break;
-    }
-  }
-  var ladder = JSON.stringify(ladderJSON);
-  process.env.LADDER = ladder;
-}
-
-function parseLadder() {
-  var ladderRawData = process.env.LADDER;
-  const ladderJSON = JSON.parse(ladderRawData);
-  ladderString = "";
-  ladderJSON.forEach((l) => {
-    ladderString += `Place ${l.place}: ${l.player}\n`;
-  });
-  return ladderString;
-}
-
-function saveGame(save) {
-  var savesRawData = fs.readFileSync("saves.json");
-  var savesJSON = JSON.parse(savesRawData);
-  var found = false;
-  for (s of savesJSON) {
-    if (s.player === save.player) {
-      s.level = save.level;
-      found = true;
-      break;
-    }
-  }
-  if (!found) savesJSON.push(save);
-  var saves = JSON.stringify(savesJSON);
-  fs.writeFile(path.join(__dirname, "saves.json"), saves, (err) => {
-    if (err) throw err;
-    console.log(saves);
-    console.log("Saves updated...");
-  });
-}
-
-function loadGame(player) {
-  const savesRawData = fs.readFileSync("saves.json");
-  var savesJSON = JSON.parse(savesRawData);
-  for (s of savesJSON) {
-    if (s.player === player) {
-      return s;
-    }
-  }
-}
-
-function deleteGame(player) {
-  var savesRawData = fs.readFileSync("saves.json");
-  var savesJSON = JSON.parse(savesRawData);
-  for (let i = 0; i < savesJSON.length; i++) {
-    if (savesJSON[i].player === player) savesJSON.splice(i, 1);
-  }
-  var saves = JSON.stringify(savesJSON);
-  fs.writeFile(path.join(__dirname, "saves.json"), saves, (err) => {
-    if (err) throw err;
-    console.log(saves);
-    console.log("Saves updated...");
-  });
-}
+bot.launch();
