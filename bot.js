@@ -56,22 +56,23 @@ const existingGame = new Scene("existingGame");
 stage.register(existingGame);
 
 const startMessage = `
-Greetings traveller! You just arrived in Munich a few days or weeks ago I assume. The city can seem big and scary at first. But do not worry! With some navigational skills as well as some simple math I will guide you through the historical core of the city on this years inner city scavenger hunt.
-To start the scavenger hunt enter /newgame .
+Greetings traveller! You just arrived in Munich a few days or weeks ago I assume. The city can seem big and scary at first. But do not worry! With some navigational skills as well as some simple math I will guide you through the historical core of the city on this years inner city Scavenger Hunt.
+To start the Scavenger Hunt enter /newgame .
 For all available commands enter /help .
-Please make sure you have registerd a Telegram-Username to be able to participate in the scavenger hunt.`;
+Please make sure you have registerd a Telegram-Username to be able to participate in the Scavenger Hunt.`;
 
 bot.start((ctx) => ctx.reply(startMessage));
 
 bot.command("help", (ctx) => {
   ctx.reply(`Here is a list of all available commands:
 /help - List all commands
-/newgame - Start a new scavenger hunt.
-/resumegame - Resume an your scavenger hunt.
-/endgame - End your current scavenger hunt.
-/ladder - Show the first ten players to finish the scavenger hunt.
+/newgame - Start a new Scavenger Hunt.
+/resumegame - Resume an your Scavenger Hunt.
+/endgame - End your current Scavenger Hunt.
+/ladder - Show the first ten players to finish the Scavenger Hunt.
 /clue - Shows the last clue.
-/showprogress - Shows how far you have gotten on your scavenger hunt.`);
+/showprogress - Shows how far you have gotten on your Scavenger Hunt.
+/info - Shows interesting facts about your curret station.`);
 });
 
 bot.command("ladder", (ctx) => {
@@ -86,12 +87,12 @@ bot.command("newgame", (ctx) => {
       ctx.reply("Starting new game. Get ready for your first clue.");
       ctx.scene.enter("game");
     } else {
-      ctx.reply("It seems like you haven't finished an existing scavenger hunt.\nEnter \"resume\" to resume your existing scavenger hunt.\nEnter \"new\" to start a new scavenger hunt. Your old progress will be lost.");
+      ctx.reply("It seems like you haven't finished an existing Scavenger Hunt.\nEnter \"resume\" to resume your existing Scavenger Hunt.\nEnter \"new\" to start a new Scavenger Hunt. Your old progress will be lost.");
       ctx.scene.enter("existingGame");
     }
   } else {
     ctx.reply(
-      'It appears that you haven\'t registert a Telegram-Username. Please enter your Username under "Telegram > Settings" before participating in the scavanger hunt.'
+      'It appears that you haven\'t registered a Telegram-Username. Please enter your Username under "Telegram > Settings" before participating in the Scavenger Hunt.'
     );
   }
 });
@@ -101,7 +102,7 @@ bot.command("resumegame", (ctx) => {
     if (saves.gameFound(ctx.from.username)) {
       ctx.session.save = saves.loadGame(ctx.from.username);
       ctx.reply(
-        `Game found. Your scavanger hunt will be resumed. Here is your last clue:`
+        `Game found. Your Scavenger Hunt will be resumed. Here is your last clue:`
       );
       ctx.scene.leave();
       ctx.scene.enter("game");
@@ -112,7 +113,7 @@ bot.command("resumegame", (ctx) => {
     }
   } else {
     ctx.reply(
-      'It appears that you haven\'t registert a Telegram-Username. Please enter your Username under "Telegram > Settings" before participating in the scavanger hunt.'
+      'It appears that you haven\'t registered a Telegram-Username. Please enter your Username under "Telegram > Settings" before participating in the Scavenger Hunt.'
     );
   }
 });
@@ -126,17 +127,20 @@ bot.command("showprogress", (ctx) => {
   ctx.reply(`You have completed ${progressLevel} out of 20 stations.`);
 });
 
+bot.command("info", (ctx) => {
+  ctx.reply("Please enter a game before using this command.")
+})
 
 
 existingGame.on("text", (ctx) => {
   if(ctx.message.text === "resume") {
     ctx.session.save = saves.loadGame(ctx.from.username);
-    ctx.reply("Your old scavanger hunt will be resumed.\nHere is your last clue:");
+    ctx.reply("Your old Scavenger Hunt will be resumed.\nHere is your last clue:");
     ctx.scene.leave();
     ctx.scene.enter("game");
   } else if(ctx.message.text === "new") {
     ctx.session.save = { "player": ctx.from.username, "level": 0 };
-    ctx.reply("You have started a new scavenger hunt.\nYour old progress will be lost.\nHere is your first clue:");
+    ctx.reply("You have started a new Scavenger Hunt.\nYour old progress will be lost.\nHere is your first clue:");
     ctx.scene.leave();
     ctx.scene.enter("game");
   }
@@ -159,29 +163,30 @@ game.on("text", (ctx) => {
     console.log(ctx.session.save);
     saves.saveGame(ctx.session.save.player, ctx.session.save.level);
     ctx.reply(
-      `Congrats! Your answer is right. Here is the next clue:\n\n${
+      `Congrats! Your answer is right.\nUse /info to learn more about your current station.\nHere is the next clue:\n\n${
         envelopesJSON[ctx.session.save.level].clue
       }\n\n${envelopesJSON[ctx.session.save.level].task}`
     );
   } else if (ctx.message.text === "/endgame") {
     ctx.reply(
-      "Leaving the current scavanger hunt. Your progress will be saved"
+      "Leaving the current Scavenger Hunt. Your progress will be saved"
     );
     saves.saveGame(ctx.session.save.player, ctx.session.save.level);
     ctx.scene.leave();
   } else if (ctx.message.text === "/newgame") {
-    ctx.reply("Your scavanger hunt is already in progress.");
+    ctx.reply("Your Scavenger Hunt is already in progress.");
   } else if (ctx.message.text === "/ladder") {
     ctx.reply(`Here is the current ladder:\n${ladder.parseLadder()}`);
   } else if (ctx.message.text === "/help") {
     ctx.reply(`Here is a list of all available commands:
 /help - List all commands
-/newgame - Start a new scavenger hunt.
-/resumegame - Resume an your scavenger hunt.
-/endgame - End your current scavenger hunt.
-/ladder - Show the first ten players to finish the scavenger hunt.
+/newgame - Start a new Scavenger Hunt.
+/resumegame - Resume an your Scavenger Hunt.
+/endgame - End your current Scavenger Hunt.
+/ladder - Show the first ten players to finish the Scavenger Hunt.
 /clue - Shows the last clue.
-/showprogress - Shows how far you have gotten on your scavenger hunt.`);
+/showprogress - Shows how far you have gotten on your Scavenger Hunt.
+/info - Shows interesting facts about your curret station.`);
   } else if (ctx.message.text === "/clue") {
     ctx.reply(
       `Here is your last clue:\n\n${
@@ -191,12 +196,14 @@ game.on("text", (ctx) => {
   } else if (ctx.message.text === "/showprogress") {
     let progressLevel = ctx.session.save.level;
     ctx.reply(`You have completed ${progressLevel} out of 20 stations.`);
+  } else if(ctx.message.text === "/info") {
+    if(ctx.session.level > 0) ctx.reply(envelopesJSON[ctx.session.save.level - 1]).info;
   } else {
     ctx.reply("Your number is incorrect. Try again.");
   }
   if (ctx.session.save.level === 20) {
     ctx.reply(
-      "Congratulations! You have sucessfully finished the scavenger hunt."
+      "Congratulations! You have sucessfully finished the Scavenger Hunt."
     );
     ladder.addPlayer(ctx.session.save.player);
     saves.deleteGame(ctx.session.save.player);

@@ -2,7 +2,7 @@
   "name": "testbot",
   "version": "1.0.0",
   "description": "Telegram Test-Bot",
-  "main": "bot.js",
+  "main": "spreadsheet.js",
   "scripts": {
     "start": "node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,6 +20,7 @@
     "dotenv": "^8.2.0",
     "envs": "^0.1.6",
     "express": "^4.17.1",
+    "google-spreadsheet": "^3.0.13",
     "lodash": "^4.17.20",
     "micro-bot": "^2.5.3",
     "node-telegram-bot-api": "^0.50.0",

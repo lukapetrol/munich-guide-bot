@@ -10,7 +10,7 @@ class Ladder {
       { place: 7, player: "" },
       { place: 8, player: "" },
       { place: 9, player: "" },
-      { place: 10, player: "" },
+      { place: 10, player: "" }
     ];
   }
 
