@@ -201,7 +201,7 @@ game.on("text", (ctx) => {
   } else {
     ctx.reply("Your number is incorrect. Try again.");
   }
-  if (ctx.session.save.level === 20) {
+  if (ctx.session.save.save.level === 20) {
     ctx.reply(
       "Congratulations! You have sucessfully finished the Scavenger Hunt."
     );
