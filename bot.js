@@ -197,7 +197,7 @@ game.on("text", (ctx) => {
     let progressLevel = ctx.session.save.level;
     ctx.reply(`You have completed ${progressLevel} out of 20 stations.`);
   } else if(ctx.message.text === "/info") {
-    if(ctx.session.save.level > 0) ctx.reply(envelopesJSON[ctx.session.save.level - 1]).info);
+    if(ctx.session.save.level > 0) ctx.reply(envelopesJSON[ctx.session.save.level - 1].info);
   } else {
     ctx.reply("Your number is incorrect. Try again.");
   }
