@@ -211,4 +211,6 @@ game.on("text", (ctx) => {
   }
 });
 
+bug
+
 // bot.launch();
