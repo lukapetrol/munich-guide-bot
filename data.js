@@ -197,4 +197,4 @@ async function getRemainingPenaltyTime(playerName) {
     }
 } 
 
-module.exports = { test, gameFound, saveGame, loadGame, deleteGame, parseLadder, addPlayerToLadder, setPenalty, checkPenalty, removePenalty, getRemainingPenaltyTime };
+module.exports = { gameFound, saveGame, loadGame, deleteGame, parseLadder, addPlayerToLadder, setPenalty, checkPenalty, removePenalty, getRemainingPenaltyTime };
