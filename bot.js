@@ -8,7 +8,7 @@ const fs = require("fs");
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
 
-let Data = require("./data.js");
+const Data = require("./data.js");
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
