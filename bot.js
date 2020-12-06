@@ -12,10 +12,10 @@ let Data = require("./data.js");
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
-bot.telegram.setWebhook(
-  `${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`
-);
-bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
+// bot.telegram.setWebhook(
+//   `${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`
+// );
+// bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
 
 
 const stage = new Stage();
@@ -64,7 +64,6 @@ const creds = {
 }
 
 async function parseLadder() {
-  const creds = require("./client_secret.json");
   const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
   await doc.useServiceAccountAuth(creds);
   await doc.loadInfo();
@@ -297,4 +296,4 @@ game.on("text", (ctx) => {
   }
 });
 
-// bot.launch();
+bot.launch();

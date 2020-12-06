@@ -78,7 +78,6 @@ async function deleteGame(playerName) {
 }
 
 async function parseLadder() {
-    const creds = require("./client_secret.json");
     const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
     await doc.useServiceAccountAuth(creds);
     await doc.loadInfo();
