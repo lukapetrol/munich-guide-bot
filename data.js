@@ -147,7 +147,6 @@ async function checkPenalty(playerName) {
         if(row._rawData[0] === playerName) {
             var penaltyDate = new Date(row._rawData[1]);
             var difference = (currentDate.getTime() - penaltyDate.getTime()) / 1000;
-            console.log(difference);
             if(difference < 1800) {
                 penaltyActive = true;
             } else {
