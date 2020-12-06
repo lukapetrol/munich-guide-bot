@@ -46,6 +46,45 @@ const envelopeOrder = [
   21,
 ];
 
+
+const { GoogleSpreadsheet } = require("google-spreadsheet");
+
+
+const creds = {
+    "type": process.env.GOOGLE_ACCOUNT_TYPE,
+    "project_id": process.env.GOOGLE_PROJECT_ID,
+    "private_key_id": process.env.GOOGLE_PRIVATE_KEY_ID,
+    "private_key": process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    "client_email": process.env.GOOGLE_CLIENT_EMAIL,
+    "client_id": process.env.GOOGLE_CLIENT_ID,
+    "auth_uri": process.env.GOOGLE_AUTH_URI,
+    "token_uri": process.env.GOOGLE_TOKEN_URI,
+    "auth_provider_x509_cert_url": process.env.GOOGLE_AUTH_PROVIDER_CERT_URL,
+    "client_x509_cert_url": process.env.GOOGLE_CLIENT_CERT_URL
+}
+
+async function parseLadder() {
+  const creds = require("./client_secret.json");
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[1];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  var ladderString = "";
+  for(row of rows) {
+      if(typeof row._rawData[1] === "undefined") {
+          ladderString += `Place ${row._rawData[0]}: \n`;
+      } else {
+          ladderString += `Place ${row._rawData[0]}: ${row._rawData[1]}\n`;
+      }
+  }
+  return ladderString;
+}
+
+
+
 const game = new Scene("game");
 stage.register(game);
 
@@ -73,7 +112,7 @@ bot.command("help", (ctx) => {
 });
 
 bot.command("ladder", (ctx) => {
-  Data.parseLadder().then(ladder => {
+  parseLadder().then(ladder => {
     ctx.reply(`Here is the current ladder:\n${ladder}`);
   });
 });
