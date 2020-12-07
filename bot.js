@@ -207,8 +207,10 @@ game.on("text", (ctx) => {
       } else {
         getRemainingPenaltyTime(ctx.from.username).then(time => {
           ctx.reply(`Your penalty is still pending. Please wait ${time}.`);
-          ctx.session.save.penaltyCount = 0;
-          saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+          if(ctx.session.save.penaltyCount !== 0) {
+            ctx.session.save.penaltyCount = 0;
+            saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+          }
         });
       }
     });
@@ -260,8 +262,10 @@ game.on("text", (ctx) => {
       } else {
         getRemainingPenaltyTime(ctx.from.username).then(time => {
           ctx.reply(`Your penalty is still pending. Please wait ${time}.`);
-          ctx.session.save.penaltyCount = 0;
-          saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+          if(ctx.session.save.penaltyCount !== 0) {
+            ctx.session.save.penaltyCount = 0;
+            saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+          }
         });
       }
     });
