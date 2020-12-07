@@ -61,6 +61,7 @@ const creds = {
     "client_x509_cert_url": process.env.GOOGLE_CLIENT_CERT_URL
 }
 
+bug
 
 const game = new Scene("game");
 stage.register(game);
