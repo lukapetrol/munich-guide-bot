@@ -4,11 +4,12 @@ const session = require("telegraf/session");
 const Stage = require("telegraf/stage");
 const Scene = require("telegraf/scenes/base");
 const fs = require("fs");
+const { GoogleSpreadsheet } = require("google-spreadsheet");
 
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
 
-const Data = require("./data");
+// const Data = require("./data");
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
@@ -47,8 +48,6 @@ const envelopeOrder = [
 ];
 
 
-const { GoogleSpreadsheet } = require("google-spreadsheet");
-
 
 const creds = {
     "type": process.env.GOOGLE_ACCOUNT_TYPE,
@@ -62,26 +61,6 @@ const creds = {
     "auth_provider_x509_cert_url": process.env.GOOGLE_AUTH_PROVIDER_CERT_URL,
     "client_x509_cert_url": process.env.GOOGLE_CLIENT_CERT_URL
 }
-
-async function parseLadder() {
-  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
-  await doc.useServiceAccountAuth(creds);
-  await doc.loadInfo();
-  const sheet = doc.sheetsByIndex[1];
-  const rows = await sheet.getRows({
-      offset: 0
-  });
-  var ladderString = "";
-  for(row of rows) {
-      if(typeof row._rawData[1] === "undefined") {
-          ladderString += `Place ${row._rawData[0]}: \n`;
-      } else {
-          ladderString += `Place ${row._rawData[0]}: ${row._rawData[1]}\n`;
-      }
-  }
-  return ladderString;
-}
-
 
 
 const game = new Scene("game");
@@ -119,11 +98,11 @@ bot.command("ladder", (ctx) => {
 bot.command("newgame", (ctx) => {
   if (typeof ctx.from.username !== "undefined") {
 
-    Data.gameFound(ctx.from.username).then(found => {
+    gameFound(ctx.from.username).then(found => {
 
       if(!found) {
         ctx.session.save = { player: ctx.from.username, level: 0, penaltyCount: 0 };
-        Data.saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+        saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
         ctx.reply("Starting new game. Get ready for your first clue.");
         ctx.scene.enter("game");
       } else {
@@ -143,9 +122,9 @@ bot.command("newgame", (ctx) => {
 
 bot.command("resumegame", (ctx) => {
   if (typeof ctx.from.username !== undefined) {
-    Data.gameFound(ctx.from.username).then(found => {
+    gameFound(ctx.from.username).then(found => {
       if(found) {
-        Data.loadGame(ctx.from.username).then(game => {
+        loadGame(ctx.from.username).then(game => {
           ctx.session.save = game;
           ctx.reply(
             `Game found. Your Scavenger Hunt will be resumed. Here is your last clue:`
@@ -171,7 +150,7 @@ bot.command("clue", (ctx) => {
 });
 
 bot.command("showprogress", (ctx) => {
-  Data.loadGame(ctx.from.username).then(game => {
+  loadGame(ctx.from.username).then(game => {
     var progressLevel = game.level;
     ctx.reply(`You have completed ${progressLevel} out of 20 stations.`);
   });
@@ -183,7 +162,7 @@ bot.command("info", (ctx) => {
 
 existingGame.on("text", (ctx) => {
   if (ctx.message.text === "resume") {
-    Data.loadGame(ctx.from.username).then(game => {
+    loadGame(ctx.from.username).then(game => {
       ctx.session.save = game;
       ctx.reply(
         "Your old Scavenger Hunt will be resumed.\nHere is your last clue:"
@@ -192,9 +171,9 @@ existingGame.on("text", (ctx) => {
       ctx.scene.enter("game");
     });
   } else if (ctx.message.text === "new") {
-    Data.loadGame(ctx.from.username).then(game => {
+    loadGame(ctx.from.username).then(game => {
       ctx.session.save = { player: ctx.from.username, level: 0, penaltyCount: game.penaltyCount };
-      Data.saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+      saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
       ctx.reply(
         "You have started a new Scavenger Hunt.\nYour old progress will be lost.\nHere is your first clue:"
       );
@@ -215,19 +194,19 @@ game.enter((ctx) => {
 
 game.on("text", (ctx) => {
   if (ctx.message.text === String(envelopeOrder[ctx.session.save.level])) {
-    Data.checkPenalty(ctx.from.username).then(active => {
+    checkPenalty(ctx.from.username).then(active => {
       if(!active) {
         if(ctx.session.save.penaltyCount > 2) ctx.session.save.penaltyCount = 0;
         ctx.session.save.level++;
         console.log(ctx.session.save);
-        Data.saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+        saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
         ctx.reply(
           `Congrats! Your answer is right.\nUse /info to learn more about your current station.\nHere is the next clue:\n\n${
             envelopesJSON[ctx.session.save.level].clue
           }\n\n${envelopesJSON[ctx.session.save.level].task}`
         );
       } else {
-        Data.getRemainingPenaltyTime(time => {
+        getRemainingPenaltyTime(time => {
           ctx.reply(`Your penalty is still pending. Please wait ${time}.`);
         });
       }
@@ -236,12 +215,12 @@ game.on("text", (ctx) => {
     ctx.reply(
       "Leaving the current Scavenger Hunt. Your progress will be saved"
     );
-    Data.saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+    saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
     ctx.scene.leave();
   } else if (ctx.message.text === "/newgame") {
     ctx.reply("Your Scavenger Hunt is already in progress.");
   } else if (ctx.message.text === "/ladder") {
-    Data.parseLadder().then(ladder => {
+    parseLadder().then(ladder => {
       ctx.reply(`Here is the current ladder:\n${ladder}`);
     });
   } else if (ctx.message.text === "/help") {
@@ -267,18 +246,18 @@ game.on("text", (ctx) => {
     if (ctx.session.save.level > 0)
       ctx.reply(envelopesJSON[ctx.session.save.level - 1].info);
   } else {
-    Data.checkPenalty(ctx.from.username).then(active => {
+    checkPenalty(ctx.from.username).then(active => {
       if(!active) {
         ctx.reply("Your number is incorrect. Try again.");
         ctx.session.save.penaltyCount++;
-        Data.saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+        saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
         if(ctx.session.save.penaltyCount > 2) {
-          Data.setPenalty(ctx.from.username);
+          setPenalty(ctx.from.username);
           ctx.session.save.penaltyCount = 0;
-          Data.saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
+          saveGame(ctx.session.save.player, ctx.session.save.level, ctx.session.save.penaltyCount);
         }
       } else {
-        Data.getRemainingPenaltyTime(ctx.from.username).then(time => {
+        getRemainingPenaltyTime(ctx.from.username).then(time => {
           ctx.reply(`Your penalty is still pending. Please wait ${time}.`);
         });
       }
@@ -290,10 +269,197 @@ game.on("text", (ctx) => {
     ctx.reply(
       "Congratulations! You have sucessfully finished the Scavenger Hunt."
     );
-    Data.addPlayerToLadder(ctx.session.save.player);
-    Data.deleteGame(ctx.session.save.player);
+    addPlayerToLadder(ctx.session.save.player);
+    deleteGame(ctx.session.save.player);
     ctx.scene.leave();
   }
 });
 
 bot.launch();
+
+
+async function gameFound(playerName) {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[0];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  var playerFound = false;
+  for(row of rows) {
+      if(row._rawData[0] === playerName) playerFound = true;
+  }
+  return playerFound;
+}
+
+async function saveGame(playerName, playerLevel, penaltyCount) {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[0];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  var playerFound = false;
+  for(row of rows) {
+      if(row._rawData[0] === playerName) {
+          row.Level = playerLevel;
+          row.PenaltyCount = penaltyCount;
+          await row.save();
+          playerFound = true;
+      }
+  }
+  if(!playerFound) await sheet.addRow({ "Player": playerName, "Level": playerLevel, "PenaltyCount": penaltyCount });
+}
+
+async function loadGame(playerName) {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  var game = null;
+  const sheet = doc.sheetsByIndex[0];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  rows.forEach(row => {
+      if(row._rawData[0] === playerName) game = { player: row._rawData[0], level: row._rawData[1], penaltyCount: row._rawData[2] };
+  });
+  return game;
+}
+
+async function deleteGame(playerName) {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[0];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  rows.forEach(row => {
+      if(row._rawData[0] === playerName) row.delete();
+  });
+}
+
+async function parseLadder() {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[1];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  var ladderString = "";
+  for(row of rows) {
+      if(typeof row._rawData[1] === "undefined") {
+          ladderString += `Place ${row._rawData[0]}: \n`;
+      } else {
+          ladderString += `Place ${row._rawData[0]}: ${row._rawData[1]}\n`;
+      }
+  }
+  return ladderString;
+}
+
+async function addPlayerToLadder(playerName) {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[1];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  for(row of rows) {
+      if(row._rawData[1] === playerName) {
+          break;
+      } else if(typeof row._rawData[1] === "undefined") {
+          row._rawData[1] = playerName;
+          await row.save();
+          break;
+      }
+  }
+}
+
+async function setPenalty(playerName) {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[2];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  var date = new Date();
+  var playerFound = false;
+  for(row of rows) {
+      if(row._rawData[0] === playerName) {
+          row._rawData[1] = date;
+          await row.save();
+          playerFound = true;
+          break;
+      }
+  }
+  if(!playerFound) await sheet.addRow({ "Player": playerName, "Time": date });
+}
+
+async function checkPenalty(playerName) {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[2];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  var penaltyActive = false;
+  var currentDate = new Date();
+  for(row of rows) {
+      if(row._rawData[0] === playerName) {
+          var penaltyDate = new Date(row._rawData[1]);
+          var difference = (currentDate.getTime() - penaltyDate.getTime()) / 1000;
+          if(difference < 1800) {
+              penaltyActive = true;
+          } else {
+              penaltyActive = false;
+              removePenalty(playerName);
+          }
+          break;
+      }
+  }
+  return penaltyActive;
+}
+
+async function removePenalty(playerName) {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[2];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+}
+
+async function getRemainingPenaltyTime(playerName) {
+  const doc = new GoogleSpreadsheet("15xbstTjUU1-xa6GYPZue57UKHbGsbFG2qyWiDhi-IB0");
+  await doc.useServiceAccountAuth(creds);
+  await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[2];
+  const rows = await sheet.getRows({
+      offset: 0
+  });
+  var penaltyFound = false;
+  var currentDate = new Date();
+  for(row of rows) {
+      if(row._rawData[0] === playerName) {
+          penaltyFound = true;
+          var penaltyDate = new Date(row._rawData[1]);
+          var difference = Math.floor((currentDate.getTime() - penaltyDate.getTime()) / 1000);
+          var pendingTime = 1800 - difference;
+          break;
+      }
+  }
+  if(penaltyFound) {
+      var minutes = Math.floor(pendingTime / 60);
+      var seconds = pendingTime % 60;
+      return `${minutes} minutes and ${seconds} seconds`;
+  } else {
+      return "no penalty time";
+  }
+}
