@@ -22,7 +22,31 @@ const stage = new Stage();
 bot.use(session());
 bot.use(stage.middleware());
 
-const envelopeOrder = process.env.ENVELOPE_ORDER.split(", ").map(e => parseInt(e));
+// const envelopeOrder = process.env.ENVELOPE_ORDER.split(", ").map(e => parseInt(e));
+
+const envelopeOrder = [
+  6,
+  7,
+  12,
+  5,
+  9,
+  13,
+  16,
+  2,
+  10,
+  3,
+  15,
+  11,
+  1,
+  8,
+  14,
+  18,
+  20,
+  17,
+  4,
+  19,
+  21,
+];
 
 const creds = {
     "type": process.env.GOOGLE_ACCOUNT_TYPE,
