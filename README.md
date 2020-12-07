@@ -1,6 +1,6 @@
 # munich-guide-bot
 
-This is a Telegram-Bot specifically designed to give a brief overview of the inner city of Munich. It does that by leading the participant through 20 markable sites on a scavanger-hunt while supplying interesting information about each of the sites. Once the participant has arrived at one of the stations, he must pass a riddle given by the bot and enter the correct solution to access the next clue. The bot was initially designed for exchange students of the Servicepaket-München but is available to everyone plans on giving Munichs inner city a visit.
+This is a Telegram-Bot specifically designed to give a brief overview of the inner city of Munich. It does that by leading the participant through 20 markable sites on a scavanger-hunt while supplying interesting information about each of the sites. Once the participant has arrived at one of the stations, he must pass a riddle given by the bot and enter the correct solution to access the next clue. The bot was initially designed for exchange students of the Servicepaket-München but is available to everyone who plans on giving Munichs inner city a visit.
 
 **Telegram-Link:** t.me/munichguidebot
 
