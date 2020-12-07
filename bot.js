@@ -9,7 +9,6 @@ const { GoogleSpreadsheet } = require("google-spreadsheet");
 const envelopesRawData = fs.readFileSync("envelopes.json");
 const envelopesJSON = JSON.parse(envelopesRawData);
 
-// const Data = require("./data");
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
@@ -23,31 +22,7 @@ const stage = new Stage();
 bot.use(session());
 bot.use(stage.middleware());
 
-const envelopeOrder = [
-  6,
-  7,
-  12,
-  5,
-  9,
-  13,
-  16,
-  2,
-  10,
-  3,
-  15,
-  11,
-  1,
-  8,
-  14,
-  18,
-  20,
-  17,
-  4,
-  19,
-  21,
-];
-
-
+const envelopeOrder = process.env.ENVELOPE_ORDER.split(", ");
 
 const creds = {
     "type": process.env.GOOGLE_ACCOUNT_TYPE,
@@ -283,7 +258,7 @@ game.on("text", (ctx) => {
   }
 });
 
-bot.launch();
+// bot.launch();
 
 
 async function gameFound(playerName) {
