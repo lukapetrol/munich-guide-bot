@@ -206,7 +206,7 @@ game.on("text", (ctx) => {
           }\n\n${envelopesJSON[ctx.session.save.level].task}`
         );
       } else {
-        getRemainingPenaltyTime.then(time => {
+        getRemainingPenaltyTime(ctx.from.username).then(time => {
           ctx.reply(`Your penalty is still pending. Please wait ${time}.`);
         });
       }
