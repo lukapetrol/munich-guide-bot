@@ -272,7 +272,7 @@ game.on("text", (ctx) => {
   }
 
 
-  if (ctx.session.save.level === 20) {
+  if (ctx.session.save.level === 19) {
     ctx.reply(
       "Congratulations! You have sucessfully finished the Scavenger Hunt."
     );
