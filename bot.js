@@ -73,7 +73,8 @@ const startMessage = `
 Greetings traveller! You just arrived in Munich a few days or weeks ago I assume. The city can seem big and scary at first. But do not worry! With some navigational skills as well as some simple math I will guide you through the historical core of the city on this years inner city Scavenger Hunt.
 To start the Scavenger Hunt enter /newgame .
 For all available commands enter /help .
-Please make sure you have registerd a Telegram-Username to be able to participate in the Scavenger Hunt.`;
+Please make sure you have registerd a Telegram-Username to be able to participate in the Scavenger Hunt.
+If you encounter any problems or unusual behaviour, please contact @nero_the_hero.`;
 
 bot.start((ctx) => ctx.reply(startMessage));
 
