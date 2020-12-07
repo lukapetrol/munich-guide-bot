@@ -12,17 +12,17 @@ const envelopesJSON = JSON.parse(envelopesRawData);
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
-bot.telegram.setWebhook(
-  `${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`
-);
-bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
+// bot.telegram.setWebhook(
+//   `${process.env.HEROKU_URL}/bot${process.env.TELEGRAM_TOKEN}`
+// );
+// bot.startWebhook(`/bot${process.env.TELEGRAM_TOKEN}`, null, process.env.PORT);
 
 
 const stage = new Stage();
 bot.use(session());
 bot.use(stage.middleware());
 
-const envelopeOrder = process.env.ENVELOPE_ORDER.split(", ");
+const envelopeOrder = process.env.ENVELOPE_ORDER.split(", ").map(e => parseInt(e));
 
 const creds = {
     "type": process.env.GOOGLE_ACCOUNT_TYPE,
@@ -258,6 +258,7 @@ game.on("text", (ctx) => {
   }
 });
 
+// For debugging purposes
 // bot.launch();
 
 
